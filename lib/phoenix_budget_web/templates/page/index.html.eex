@@ -2,7 +2,7 @@
   <article class="column">
     <ul>
       <li>
-        <a href="<%= Routes.budget_path(Endpoint, :index, 1) %>">First Budget</a>
+        <a href="<%= Routes.budget_path(Endpoint, :show, 1) %>">First Budget</a>
       </li>
       <li>
         <a href="<%= Routes.expenses_path(Endpoint, :index) %>">Expenses</a>

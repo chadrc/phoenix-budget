@@ -17,7 +17,7 @@ defmodule PhoenixBudgetWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/budget/:id", BudgetController, :index
+    get "/budget/:id", BudgetController, :show
     get "/expenses", ExpensesController, :index
   end
 
