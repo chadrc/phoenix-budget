@@ -18,24 +18,35 @@ config :phoenix_budget, PhoenixBudget.Repo,
 `;
 
 (async () => {
-  const prefix = '/phoenix-budget'; // no trailing slash to match what IAM needs for permissions
-  const params = (await ssm.getParametersByPath({
-    Path: prefix,
-    Recursive: true
-  }).promise()).Parameters.reduce((prev, curr) => {
-    const name = curr.Name.replace(`${prefix}/`, '').replace(/\//g, '.');
-    prev[name] = curr.Value;
-    return prev;
-  }, {});
+  let data = {
+    secret: "secret",
+    username: "postgres",
+    password: "postgres",
+    database: "phoenix_budget_dev"
+  };
 
-  console.log(params);
+  try {
+    const prefix = '/phoenix-budget'; // no trailing slash to match what IAM needs for permissions
+    const params = (await ssm.getParametersByPath({
+      Path: prefix,
+      Recursive: true
+    }).promise()).Parameters.reduce((prev, curr) => {
+      const name = curr.Name.replace(`${prefix}/`, '').replace(/\//g, '.');
+      prev[name] = curr.Value;
+      return prev;
+    }, {});
 
-  const template = writeTemplate({
-    secret: params['secret-key-base'],
-    username: params['prod.database-username'],
-    password: params['prod.database-password'],
-    database: params['prod.database-name']
-  });
+    data = {
+      secret: params['secret-key-base'],
+      username: params['prod.database-username'],
+      password: params['prod.database-password'],
+      database: params['prod.database-name']
+    };
+  } catch (e) {
+    console.log("Could not fetch params from AWS. Using defaults.");
+  }
+
+  const template = writeTemplate(data);
 
   const filePath = path.resolve(__dirname, "../config/prod.secret.exs");
 
