@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'MIX_ENV=prod mix compile'
-                sh 'cd assets && npm run deploy'
+                sh 'cd assets && npm install && npm run deploy'
                 sh 'mix phx.digest'
             }
         }
