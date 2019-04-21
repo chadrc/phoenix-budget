@@ -1,14 +1,11 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>A productive web framework that<br/>does not compromise speed or maintainability.</p>
-</section>
-
 <section class="row">
   <article class="column">
-    <h2>Resources</h2>
     <ul>
       <li>
         <a href="<%= Routes.budget_path(Endpoint, :index, 1) %>">First Budget</a>
+      </li>
+      <li>
+        <a href="<%= Routes.expenses_path(Endpoint, :index) %>">Expenses</a>
       </li>
     </ul>
   </article>

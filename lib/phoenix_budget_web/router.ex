@@ -18,6 +18,7 @@ defmodule PhoenixBudgetWeb.Router do
 
     get "/", PageController, :index
     get "/budget/:id", BudgetController, :index
+    get "/expenses", ExpensesController, :index
   end
 
   # Other scopes may use custom stacks.
