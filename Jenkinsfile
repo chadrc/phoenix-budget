@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Bundle') {
             steps {
                 buildImage name: 'budget-app'
             }
