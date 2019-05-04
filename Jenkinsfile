@@ -2,7 +2,7 @@ pipeline {
     agent none
 
     stages {
-        stage('Deps') {
+        stage('Build') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
@@ -11,21 +11,11 @@ pipeline {
             }
 
             steps {
+                sh 'cd scripts && npm install && npm run gen-prod'
                 sh 'mix deps.get --only prod'
                 sh 'mix compile'
-            }
-        }
-
-        stage('Assets') {
-            agent {
-                docker {
-                    image 'node'
-                }
-            }
-
-            steps {
-                sh 'cd scripts && npm install && npm run gen-prod'
                 sh 'cd assets && npm install && npm run deploy'
+                sh 'mix phx.digest'
             }
         }
 
