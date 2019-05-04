@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        dockerfile {
-            filename 'Dockerfile'
-            dir 'ci-container'
-        }
-    }
+    agent none
 
     stages {
         stage('Setup') {
