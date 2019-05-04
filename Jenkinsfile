@@ -21,9 +21,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                buildImage {
-                    name 'budget-app'
-                }
+                buildImage name: 'budget-app'
             }
         }
     }
