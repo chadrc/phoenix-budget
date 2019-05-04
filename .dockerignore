@@ -3,7 +3,9 @@ deps
 scripts
 ci-container
 test
+assets
 README.md
 Jenkinsfile
 .gitignore
 .formatter.exs
+*/node_modules/

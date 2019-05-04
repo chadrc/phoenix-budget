@@ -2,16 +2,18 @@ FROM elixir
 
 # common deps, treating as separate from build of app
 RUN mix local.hex --force && \
-    mix local.rebar --force && \
+    mix local.rebar --force
 
 ADD . /app
 WORKDIR /app
 
-RUN mix deps.get --only prod && \
-    MIX_ENV=prod mix compile && \
-    cd assets && npm install && npm run deploy && cd ../ && \
-    MIX_ENV=prod mix phx.digest
+ENV PORT=4000
+ENV MIX_ENV=prod
 
-ENTRYPOINT ['mix', 'phx.server']
+RUN mix deps.get --only prod && \
+    mix compile && \
+    mix phx.digest
+
+ENTRYPOINT ["mix", "phx.server"]
 
 EXPOSE 4000
