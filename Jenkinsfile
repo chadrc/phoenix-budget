@@ -8,17 +8,22 @@ pipeline {
 
     stages {
         stage('Setup') {
+            agent {
+                docker {
+                    image 'node'
+                }
+            }
             steps {
                 sh 'cd scripts && npm install && npm run gen-prod'
-                sh 'mix deps.get --only prod'
+                sh 'cd assets && npm install && npm run deploy'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'MIX_ENV=prod mix compile'
-                sh 'cd assets && npm install && npm run deploy'
-                sh 'MIX_ENV=prod mix phx.digest'
+                buildImage {
+                    name 'budget-app'
+                }
             }
         }
     }
