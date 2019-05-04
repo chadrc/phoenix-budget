@@ -2,12 +2,27 @@ pipeline {
     agent none
 
     stages {
-        stage('Setup') {
+        stage('Deps') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    dir 'ci-container'
+                }
+            }
+
+            steps {
+                sh 'mix deps.get --only prod'
+                sh 'mix compile'
+            }
+        }
+
+        step('Assets') {
             agent {
                 docker {
                     image 'node'
                 }
             }
+
             steps {
                 sh 'cd scripts && npm install && npm run gen-prod'
                 sh 'cd assets && npm install && npm run deploy'
