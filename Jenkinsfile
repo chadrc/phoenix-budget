@@ -16,7 +16,7 @@ pipeline {
             }
         }
 
-        step('Assets') {
+        stage('Assets') {
             agent {
                 docker {
                     image 'node'
