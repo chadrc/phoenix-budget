@@ -20,10 +20,14 @@ pipeline {
         }
 
         stage('Bundle') {
-            agent any
+            agent {
+                docker {
+                    image 'docker'
+                }
+            }
 
             steps {
-                buildImage name: 'budget-app'
+                sh 'docker build -t budget-app-prod .'
             }
         }
     }
